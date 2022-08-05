@@ -42,6 +42,30 @@ router.get('/:personId', async (req, res) => {
     }
 });
 
+//deleting a person
+router.delete('/:personId', async (req, res) =>{
+    try{
+            const removedPerson = await Person.remove({_id: req.params.personId});
+            res.json(removedPerson);
+        
+    }catch(err){
+        res.json({message:err});
+    }
+});
+
+//Update a Person
+router.patch('/:personId', async (req, res) => {
+    try{
+        const updatedPerson = await Person.updateOne(
+            {_id: req.params.personId}, 
+            { $set: {name: req.body.name, surname: req.body.surname, age: req.body.age}}
+            );
+        res.json(updatedPerson);
+    }catch(err){
+        res.json({message: err});
+    }
+});
+
 function getAllPersons() {
     try{
         const filter = {};
