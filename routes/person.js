@@ -13,6 +13,16 @@ router.get('/', async (req, res) =>{
     }
 });
 
+//Persons pagination
+router.get('/:pageId', async (req, res) => {
+    try{
+    const persons = await Person.find().limit(10).skip(10 * parseInt(req.params.pageId));
+    res.json(persons);
+    }catch(err){
+        res.json({message: err});
+    }
+});
+
 //Submit a post
 router.post('/', async (req, res) =>{
     const newPerson = new Person({
@@ -32,7 +42,7 @@ router.post('/', async (req, res) =>{
     }
 })
 
-//get post by id
+//get person by id
 router.get('/:personId', async (req, res) => {
     try{
     const person = await Person.findById(req.params.personId);
@@ -65,6 +75,7 @@ router.patch('/:personId', async (req, res) => {
         res.json({message: err});
     }
 });
+
 
 function getAllPersons() {
     try{
